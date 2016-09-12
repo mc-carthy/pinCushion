@@ -20,9 +20,7 @@ public class GameManager : MonoBehaviour {
 	private Button shootBtn;
 	private GameObject[] needles;
 	private float needleDistance = 0.8f;
-	private float shiftSpeed = 0.5f;
-	private float cushionRadius;
-	private float needleInsertionDepth = 0.1f;
+
 	private float prepinnedNeedleDistance;
 	private int needleIndex;
 	private int instantiatedNeedles;
@@ -31,8 +29,7 @@ public class GameManager : MonoBehaviour {
 	private void Awake () {
 		MakeInstance ();
 		GetButton ();
-		cushionRadius = cushion.GetComponent<CircleCollider2D> ().radius;
-		prepinnedNeedleDistance = 3;//= cushionRadius - needleInsertionDepth;
+		prepinnedNeedleDistance = 2.5f;
 	}
 
 	private void Start () {
@@ -89,7 +86,7 @@ public class GameManager : MonoBehaviour {
 	private void InstantiatePrepinnedNeedles () {
 		for (int i = 0; i < prepinnedNeedleCount; i++) {
 			GameObject newNeedle = Instantiate (prepinnedNeedle, cushion.transform.position + Vector3.down * prepinnedNeedleDistance, Quaternion.identity) as GameObject;
-			newNeedle.transform.RotateAround(cushion.transform.position, Vector3.forward, Random.Range(0, 360));
+			newNeedle.transform.RotateAround (cushion.transform.position, Vector3.forward, i * 360 / prepinnedNeedleCount * (1 + Random.Range(-0.1f, 0.1f)));
 			newNeedle.transform.SetParent (cushion.transform);
 		}
 	}

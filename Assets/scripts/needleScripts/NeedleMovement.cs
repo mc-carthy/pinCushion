@@ -9,7 +9,7 @@ public class NeedleMovement : MonoBehaviour {
 	private bool canShootNeedle;
 	public bool touchedCushion;
 
-	private float speed = 5f;
+	private float speed = 25f;
 
 	private Rigidbody2D rb;
 

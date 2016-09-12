@@ -10,11 +10,20 @@ public class GameManager : MonoBehaviour {
 	private GameObject needle;
 	[SerializeField]
 	private int needleCount;
+	[SerializeField]
+	private GameObject cushion;
+	[SerializeField]
+	private GameObject prepinnedNeedle;
+	[SerializeField]
+	private int prepinnedNeedleCount;
 
 	private Button shootBtn;
 	private GameObject[] needles;
 	private float needleDistance = 0.8f;
 	private float shiftSpeed = 0.5f;
+	private float cushionRadius;
+	private float needleInsertionDepth = 0.1f;
+	private float prepinnedNeedleDistance;
 	private int needleIndex;
 	private int instantiatedNeedles;
 	private bool shiftNeedles;
@@ -22,6 +31,8 @@ public class GameManager : MonoBehaviour {
 	private void Awake () {
 		MakeInstance ();
 		GetButton ();
+		cushionRadius = cushion.GetComponent<CircleCollider2D> ().radius;
+		prepinnedNeedleDistance = 3;//= cushionRadius - needleInsertionDepth;
 	}
 
 	private void Start () {
@@ -32,6 +43,7 @@ public class GameManager : MonoBehaviour {
 			needles[i] = Instantiate (needle, temp, Quaternion.identity) as GameObject;
 			temp.y -= needleDistance;
 		}
+		InstantiatePrepinnedNeedles ();
 	}
 
 
@@ -72,5 +84,13 @@ public class GameManager : MonoBehaviour {
 		shootBtn = GameObject.FindGameObjectWithTag ("shootBtn").GetComponent<Button> ();
 		shootBtn.onClick.RemoveAllListeners ();
 		shootBtn.onClick.AddListener (() => ShootNeedle ());
+	}
+
+	private void InstantiatePrepinnedNeedles () {
+		for (int i = 0; i < prepinnedNeedleCount; i++) {
+			GameObject newNeedle = Instantiate (prepinnedNeedle, cushion.transform.position + Vector3.down * prepinnedNeedleDistance, Quaternion.identity) as GameObject;
+			newNeedle.transform.RotateAround(cushion.transform.position, Vector3.forward, Random.Range(0, 360));
+			newNeedle.transform.SetParent (cushion.transform);
+		}
 	}
 }

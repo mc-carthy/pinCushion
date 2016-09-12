@@ -15,7 +15,7 @@ public class NeedleMovement : MonoBehaviour {
 
 	private void Awake () {
 		Initialize ();
-		FireNeedle ();
+		//FireNeedle ();
 	}
 
 	private void Update () {
@@ -31,6 +31,11 @@ public class NeedleMovement : MonoBehaviour {
 				touchedCushion = true;
 				rb.isKinematic = true;
 				gameObject.transform.SetParent (trig.transform);
+
+				if (GameManager.instance != null) {
+					//GameManager.instance.InstantiateNeedle ();
+				}
+
 			}
 		}
 	}

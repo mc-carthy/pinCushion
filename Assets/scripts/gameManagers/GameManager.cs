@@ -14,8 +14,10 @@ public class GameManager : MonoBehaviour {
 	private Button shootBtn;
 	private GameObject[] needles;
 	private float needleDistance = 0.8f;
+	private float shiftSpeed = 0.5f;
 	private int needleIndex;
 	private int instantiatedNeedles;
+	private bool shiftNeedles;
 
 	private void Awake () {
 		MakeInstance ();
@@ -32,6 +34,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+
 	public void ShootNeedle () {
 		needles [needleIndex].GetComponent<NeedleMovement> ().FireNeedle ();
 		needleIndex++;
@@ -39,6 +42,16 @@ public class GameManager : MonoBehaviour {
 		if (needleIndex == needles.Length + instantiatedNeedles) {
 			Debug.Log ("No more needles");
 			shootBtn.onClick.RemoveAllListeners ();
+		}
+	}
+
+	public void ShiftNeedles () {
+		for (int i = 0; i < needles.Length; i++) {
+			if (!needles [i].GetComponent<NeedleMovement> ().touchedCushion) {
+				Vector3 temp = needles [i].transform.position;
+				temp.y += needleDistance;
+				needles [i].transform.position = temp;
+			}
 		}
 	}
 
@@ -59,9 +72,5 @@ public class GameManager : MonoBehaviour {
 		shootBtn = GameObject.FindGameObjectWithTag ("shootBtn").GetComponent<Button> ();
 		shootBtn.onClick.RemoveAllListeners ();
 		shootBtn.onClick.AddListener (() => ShootNeedle ());
-	}
-
-	private void CreateNeedles () {
-
 	}
 }

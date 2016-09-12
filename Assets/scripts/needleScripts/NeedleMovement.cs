@@ -7,7 +7,7 @@ public class NeedleMovement : MonoBehaviour {
 	private GameObject needleBody;
 
 	private bool canShootNeedle;
-	private bool touchedCushion;
+	public bool touchedCushion;
 
 	private float speed = 5f;
 
@@ -15,7 +15,6 @@ public class NeedleMovement : MonoBehaviour {
 
 	private void Awake () {
 		Initialize ();
-		//FireNeedle ();
 	}
 
 	private void Update () {
@@ -32,10 +31,10 @@ public class NeedleMovement : MonoBehaviour {
 				rb.isKinematic = true;
 				gameObject.transform.SetParent (trig.transform);
 
-				if (GameManager.instance != null) {
-					//GameManager.instance.InstantiateNeedle ();
+				if (ScoreManager.instance != null) {
+					ScoreManager.instance.SetScore ();
 				}
-
+				GameManager.instance.ShiftNeedles ();
 			}
 		}
 	}

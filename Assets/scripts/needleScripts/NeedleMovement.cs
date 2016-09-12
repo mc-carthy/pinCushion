@@ -7,19 +7,30 @@ public class NeedleMovement : MonoBehaviour {
 	private GameObject needleBody;
 
 	private bool canShootNeedle;
-	private bool touchedCustion;
+	private bool touchedCushion;
 
-	private float speed = 70f;
+	private float speed = 5f;
 
 	private Rigidbody2D rb;
 
 	private void Awake () {
 		Initialize ();
+		FireNeedle ();
 	}
 
 	private void Update () {
 		if (canShootNeedle) {
 			rb.velocity = new Vector2 (0, speed);
+		}
+	}
+
+	private void OnTriggerEnter2D (Collider2D trig) {
+		if (!touchedCushion) {
+			if (trig.tag == "cushion") {
+				canShootNeedle = false;
+				touchedCushion = true;
+				rb.isKinematic = true;
+			}
 		}
 	}
 

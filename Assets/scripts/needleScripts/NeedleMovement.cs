@@ -30,6 +30,7 @@ public class NeedleMovement : MonoBehaviour {
 				canShootNeedle = false;
 				touchedCushion = true;
 				rb.isKinematic = true;
+				gameObject.transform.SetParent (trig.transform);
 			}
 		}
 	}
